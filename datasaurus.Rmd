@@ -1,0 +1,36 @@
+---
+title: "summary-stats"
+author: "Sarah Supp"
+date: "9/14/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(ggplot2)
+library(datasauRus)
+```
+
+summary stats for datasaurus datasets
+```{r}
+summary(datasaurus_dozen)
+str(datasaurus_dozen)
+
+sum_datasaur <- datasaurus_dozen %>%
+  group_by(dataset) %>%
+  dplyr::summarise(meanx = mean(x, na.rm=TRUE),
+            sdx = sd(x, na.rm=TRUE),
+            meany = mean(y, na.rm=TRUE),
+            sdy = sd(y, na.rm=TRUE),
+            corxy = cor(x, y)
+            )
+
+sum_datasaur
+
+ggplot(datasaurus_dozen, aes(x, y)) +
+  geom_point() +
+  facet_wrap(~dataset)
+
+```
